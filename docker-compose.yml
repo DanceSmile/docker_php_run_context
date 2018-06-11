@@ -4,7 +4,7 @@ services:
     image: nginx:1.11.1
     restart: always
     ports:
-      - "8001:80"
+      - "8002:80"
     volumes:
       - ./config/nginx:/etc/nginx/conf.d
     volumes_from:
@@ -12,20 +12,20 @@ services:
     depends_on:
       - php
   console:
-    image: registry.cn-hangzhou.aliyuncs.com/l_zero/console_php_7.1
+    image: registry.cn-hangzhou.aliyuncs.com/l_zero/console_php_7.1:v5.6
     restart: always
     volumes:
       - ./application:/mnt/application
   php:
-    image: registry.cn-hangzhou.aliyuncs.com/l_zero/php7.1
+    image: registry.cn-hangzhou.aliyuncs.com/l_zero/php7.1:v5.6
     restart: always
     volumes:
       - ./application:/mnt/application
   db:
     image: mariadb:10.1
     restart: always
-    ports:
-       - "3306:3306"
+    # ports:
+    #    - "3306:3306"
     volumes:
       - db_center:/var/lib/mysql
     environment:
@@ -37,6 +37,8 @@ services:
   ssdb:
      image: redis
      restart: always
+     ports:
+       - "6379:6379"
 volumes:
   db_center:
     driver: local
